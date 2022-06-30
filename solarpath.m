@@ -4,8 +4,8 @@ interval = 1e6;
 xt = linspace(0, 2*pi*365.15, interval);
 xd = linspace(0, 2*pi, interval);
 
-axis = 23.435; %23.435
-lambda = 41.433; %41.433
+axis = 23.435;
+lambda = 41.433;
 delta = (deg2rad(axis))*sin(xd-pi/2);
 
 y = deg2rad(90-lambda)*sin(xt-pi/2);
