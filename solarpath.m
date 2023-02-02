@@ -1,12 +1,16 @@
-clear all; clc; close all; format short
+clear all; clc; close all; format short;
 
 interval = 1e6;
 xt = linspace(0, 2*pi*365.15, interval);
 xd = linspace(0, 2*pi, interval);
 
-axis = 23.435;
-lambda = 41.433;
+axis = 23.435; %23.435
+lambda = 41.433; %41.433
 delta = (deg2rad(axis))*sin(xd-pi/2);
+
+disp("--- LOCATION ---------------------")
+disp("Latitude: " + lambda + char(176))
+fprintf("\n")
 
 y = deg2rad(90-lambda)*sin(xt-pi/2);
 xh = xd/(2*pi)*365.15;
@@ -102,16 +106,18 @@ disp("--- GENERAL DATA -----------------")
 disp("Longest day: " + max(diary) + " h        Highest azimut: " + max(yd) + char(176) + "        Shadow ratio: " + shp)
 disp("Shortest day: " + min(diary) + " h        Lowest azimut:  " + low + char(176) + "        Shadow ratio: " + shl)
 fprintf("\n")
+disp("---------------------------------------------------------------------------------------")
+fprintf("\n")
 
 figure(2)
 xx = [1:length(diary); 1:length(diary)];
 yy = [diary; diary];
 zz = zeros(size(xx));
-hs = surf(xx,yy,zz,yy,'EdgeColor','interp', "LineWidth", 3);
-colormap('hsv')
+hs = surf(xx, yy, zz, yy, "EdgeColor", "interp", "LineWidth", 3);
 xlim([1, 365])
 set(gcf, "Name", "Hours of sun")
 view(2)
+colorbar; colormap(hsv);
 
 azi = [0];
 counter = 1;
@@ -122,14 +128,20 @@ end
 azi(azi == 0) = [];
 
 figure(3)
-plot(1:365, azi, "-", "Color", "#F5D806", "LineWidth", 2)
-xlim([1, 365.15])
+
+xx = [1:length(azi); 1:length(azi)];
+yy = [azi; azi];
+zz = zeros(size(xx));
+hs = surf(xx, yy, zz, yy, "EdgeColor", "interp", "LineWidth", 3);
+xlim([1, 365])
 set(gcf, "Name", "Daily altitude at azimut")
+view(2)
 yline(90, "-.", "Color", "#FF5100", "LineWidth", 1.5);
 xtxt = [20, 20];
 ytxt = [90-5, 90-8];
 str = ["Max altitude = " + max(yd) + char(176), "Min altitude =  " + low + char(176)]; 
 text(xtxt, ytxt, str, "FontSize", 12)
+colorbar; colormap(jet);
 
 shadow = tan(deg2rad(azi)).^(-1);
 
@@ -145,4 +157,3 @@ colororder(color)
 xlim([1, 365.15])
 yline(0, "-.k", "LineWidth", 1.5);
 set(gcf, "Name", "Shadow ratio at azimut")
-
